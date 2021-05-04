@@ -13,10 +13,12 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>mall-coupon</name>
     <description>商城服务-优惠券服务</description>
+
     <properties>
         <java.version>1.8</java.version>
         <spring-cloud.version>2020.0.1</spring-cloud.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

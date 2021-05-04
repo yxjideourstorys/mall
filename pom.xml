@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.study.mall</groupId>
-    <artifactId>mall-ware</artifactId>
+    <artifactId>mall</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>mall</name>
     <description>聚合服务</description>
@@ -15,6 +15,12 @@
         <module>mall-ware</module>
         <module>mall-member</module>
         <module>mall-coupon</module>
+
+        <!--后台管理系统-->
+        <module>mall-admin</module>
+
+        <!--逆向工程-->
+        <module>code-generator</module>
     </modules>
 
 </project>
