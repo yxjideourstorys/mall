@@ -15,6 +15,7 @@
         <module>mall-ware</module>
         <module>mall-member</module>
         <module>mall-coupon</module>
+        <module>mall-common</module>
 
         <!--后台管理系统-->
         <module>mall-admin</module>
