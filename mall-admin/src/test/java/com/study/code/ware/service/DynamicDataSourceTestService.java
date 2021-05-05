@@ -6,7 +6,7 @@
  * 版权所有，侵权必究！
  */
 
-package com.study.code.service;
+package com.study.code.ware.service;
 
 import com.study.code.datasource.annotation.DataSource;
 import com.study.code.modules.sys.dao.SysUserDao;
