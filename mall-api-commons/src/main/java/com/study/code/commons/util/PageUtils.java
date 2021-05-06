@@ -6,7 +6,7 @@
  * 版权所有，侵权必究！
  */
 
-package com.study.code.common.utils;
+package com.study.code.commons.util;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 

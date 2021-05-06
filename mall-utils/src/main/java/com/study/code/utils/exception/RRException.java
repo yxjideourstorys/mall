@@ -6,7 +6,7 @@
  * 版权所有，侵权必究！
  */
 
-package com.study.code.common.exception;
+package com.study.code.utils.exception;
 
 /**
  * 自定义异常

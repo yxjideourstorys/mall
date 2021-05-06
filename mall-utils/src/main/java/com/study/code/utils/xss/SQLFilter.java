@@ -6,9 +6,9 @@
  * 版权所有，侵权必究！
  */
 
-package com.study.code.common.xss;
+package com.study.code.utils.xss;
 
-import com.study.code.common.exception.RRException;
+import com.study.code.utils.exception.RRException;
 import org.apache.commons.lang.StringUtils;
 
 /**

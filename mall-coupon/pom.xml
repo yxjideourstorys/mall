@@ -15,7 +15,7 @@
 
         <dependency>
             <groupId>com.study.mall</groupId>
-            <artifactId>mall-common</artifactId>
+            <artifactId>mall-api-commons</artifactId>
             <version>${project.version}</version>
         </dependency>
 

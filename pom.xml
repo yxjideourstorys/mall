@@ -15,7 +15,8 @@
         <module>mall-ware</module>
         <module>mall-member</module>
         <module>mall-coupon</module>
-        <module>mall-common</module>
+        <module>mall-utils</module>
+        <module>mall-api-commons</module>
     </modules>
 
     <!-- 统一管理jar包版本 -->
@@ -29,12 +30,13 @@
         <mysql.version>5.1.47</mysql.version>
         <druid.version>1.1.16</druid.version>
         <mybatis-plus-boot.version>3.4.0</mybatis-plus-boot.version>
-        <alibaba-fastJson.version>1.2.7</alibaba-fastJson.version>
+        <alibaba-fastJson.version>1.2.72</alibaba-fastJson.version>
         <springboot.version>2.2.2.RELEASE</springboot.version>
         <springcloud.version>Hoxton.SR1</springcloud.version>
         <springcloud-alibaba.version>2.2.3.RELEASE</springcloud-alibaba.version>
         <httpcore.version>4.4.13</httpcore.version>
         <commons-lang.version>2.6</commons-lang.version>
+        <hutool-all.version>5.1.0</hutool-all.version>
     </properties>
 
     <!-- 子模块继承之后，提供作用：锁定版本+子modlue不用写groupId和version  -->
@@ -129,6 +131,13 @@
                 <groupId>commons-lang</groupId>
                 <artifactId>commons-lang</artifactId>
                 <version>${commons-lang.version}</version>
+            </dependency>
+
+            <!--hutool-all-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool-all.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
