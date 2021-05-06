@@ -9,6 +9,14 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: youis218945
+  # 配置nacos
+  application:
+    name: mall-member-server
+  cloud:
+    nacos:    #  启动类加 @EnableDiscoveryClient  开启服务的注册与发现
+      discovery:
+        #        server-addr: http://106.15.238.69:8848/  # 配置Nacos地址
+        server-addr: http://81.69.6.206:1122/  # 配置nginx地址
 
 # mybatis-plus配置
 mybatis-plus:
