@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: mall-gateway
+  cloud:
+    nacos:
+      config:
+        # 配置中心地址
+        # server-addr: http://106.15.238.69:8848
+        # 配置nginx地址
+        server-addr: http://81.69.6.206:1122
+        # 指定yaml格式的配置
+        file-extension: yaml
+        # config分组
+        group: dev
+        # config命名空间
+        namespace: 8067255f-1a91-4cd3-be6c-c132a4c2d5a6
+        # 加载config中的其它配置
+        extension-configs[0]:
+          data-id: application-gateway.yml
+          group: dev
+          refresh: true
+

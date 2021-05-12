@@ -1,6 +1,7 @@
 package com.study.code.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +32,13 @@ public class CategoryController {
     private CategoryService categoryService;
 
     /**
-     * 列表
+     * 查询所有商品的分类及子类，以树形结构展示
      */
-    @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = categoryService.queryPage(params);
+    @RequestMapping("/list/tree")
+    public R list(){
+        List<CategoryEntity> trees = this.categoryService.queryCategoryTree();
 
-        return R.ok().put("page", page);
+        return R.ok().put("data", trees);
     }
 
 

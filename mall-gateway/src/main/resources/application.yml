@@ -1,0 +1,3 @@
+## 项目中有application.yml的，读取此文件，项目中没有的，读取nacos的config中的mall-gateway.yml文件
+dgg:
+  info: 这里是项目配置中的application.yml配置
