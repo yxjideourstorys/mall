@@ -18,9 +18,9 @@ spring:
           data-id: datasource.yml
           group: dev
           refresh: true
-        # 加载config中的mybatis配置
+        # 加载config中的mybatis-plus配置
         extension-configs[1]:
-          data-id: mybatis.yml
+          data-id: mybatis-plus.yml
           group: dev
           refresh: true
         # 加载config中的其它配置

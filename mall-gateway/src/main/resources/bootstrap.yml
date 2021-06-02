@@ -19,4 +19,7 @@ spring:
           data-id: application-gateway.yml
           group: dev
           refresh: true
-
+        extension-configs[1]:
+          data-id: gateway-router.yml
+          group: dev
+          refresh: true

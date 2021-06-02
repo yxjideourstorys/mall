@@ -17,6 +17,12 @@
             <version>${project.version}</version>
         </dependency>
 
+        <!--SpringBoot actuator-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
         <!--新增gateway-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -27,6 +33,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <!--nacos-client-->
+        <!--去除一直打印的日志-->
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-client</artifactId>
+            <version>1.4.1</version>
         </dependency>
     </dependencies>
 </project>
