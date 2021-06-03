@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Component
-@FeignClient(value = "mall-coupon-server")
+@FeignClient(value = "mall-coupon")
 public interface CouponFeignService {
 
     /**

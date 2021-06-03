@@ -13,9 +13,9 @@ spring:
         # 指定yaml格式的配置
         file-extension: yaml
         # config分组
-        group: dev
+        group: member
         # config命名空间
-        namespace: 9d046e2a-8801-456a-81fd-1b8687fac2cf
+        namespace: 50b719ee-29c4-41d5-8139-962971609d5b
         # 加载config中的datasource.yml
         extension-configs[0]:
           data-id: datasource.yml

@@ -11,10 +11,8 @@ spring:
         # server-addr: http://106.15.238.69:8848/
         # 配置nginx地址
         server-addr: http://81.69.6.206:1122/
-        # 服务分组
-        group: dev
         # 服务命名空间
-        namespace: 8067255f-1a91-4cd3-be6c-c132a4c2d5a6
+        namespace: 50b719ee-29c4-41d5-8139-962971609d5b
       config:
         # 配置中心地址
         # server-addr: http://106.15.238.69:8848
@@ -23,9 +21,9 @@ spring:
         # 指定yaml格式的配置
         file-extension: yaml
         # config分组
-        group: dev
+        group: gateway
         # config命名空间
-        namespace: 8067255f-1a91-4cd3-be6c-c132a4c2d5a6
+        namespace: 50b719ee-29c4-41d5-8139-962971609d5b
     gateway:
       # 添加路由配置
       routes:
