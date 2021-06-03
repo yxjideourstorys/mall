@@ -15,9 +15,9 @@ spring:
         # 加载config中的其它配置
         extension-configs[0]:
           data-id: application-gateway.yml
-          group: dev
+          group: gateway
           refresh: true
         extension-configs[1]:
           data-id: gateway-router.yml
-          group: dev
+          group: gateway
           refresh: true

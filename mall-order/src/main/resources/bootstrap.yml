@@ -19,17 +19,17 @@ spring:
         # 加载config中的datasource.yml
         extension-configs[0]:
           data-id: datasource.yml
-          group: dev
+          group: order
           refresh: true
         # 加载config中的mybatis-plus.yml
         extension-configs[1]:
           data-id: mybatis-plus.yml
-          group: dev
+          group: order
           refresh: true
         # 加载config中的application-order.yml
         extension-configs[2]:
           data-id: application-order.yml
-          group: dev
+          group: order
           refresh: true
 
 
