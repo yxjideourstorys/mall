@@ -16,19 +16,19 @@ spring:
         group: coupon
         # config命名空间
         namespace: 50b719ee-29c4-41d5-8139-962971609d5b
-        # 加载config中的datasource.yml
+        # 加载config中的datasource.yaml
         extension-configs[0]:
-          data-id: datasource.yml
+          data-id: datasource.yaml
           group: coupon
           refresh: true
-        # 加载config中的mybatis-plus.yml
+        # 加载config中的mybatis-plus.yaml
         extension-configs[1]:
-          data-id: mybatis-plus.yml
+          data-id: mybatis-plus.yaml
           group: coupon
           refresh: true
         # 加载config中的其它配置
         extension-configs[2]:
-          data-id: application-coupon.yml
+          data-id: application-coupon.yaml
           group: coupon
           refresh: true
 

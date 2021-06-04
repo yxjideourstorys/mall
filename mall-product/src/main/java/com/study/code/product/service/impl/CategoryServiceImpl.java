@@ -64,4 +64,13 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, CategoryEnt
 
         return childrenList;
     }
+
+    @Override
+    public void removeMenusByCatIds(List<Long> catIds) {
+
+        // 1、检查当前删除的菜单，是否被别的地方引用
+
+        // 逻辑删除 mybatis-plus 可以统一全局配置
+        this.baseMapper.deleteBatchIds(catIds);
+    }
 }

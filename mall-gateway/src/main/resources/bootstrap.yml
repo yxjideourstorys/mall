@@ -14,10 +14,10 @@ spring:
         namespace: 50b719ee-29c4-41d5-8139-962971609d5b
         # 加载config中的其它配置
         extension-configs[0]:
-          data-id: application-gateway.yml
+          data-id: application-gateway.yaml
           group: gateway
           refresh: true
         extension-configs[1]:
-          data-id: gateway-router.yml
+          data-id: gateway-router.yaml
           group: gateway
           refresh: true
