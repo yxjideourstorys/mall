@@ -66,6 +66,6 @@ public class CategoryEntity implements Serializable {
 	 * 子类分类
 	 */
 	@TableField(exist = false)
-	private List<CategoryEntity> childrens;
+	private List<CategoryEntity> children;
 
 }

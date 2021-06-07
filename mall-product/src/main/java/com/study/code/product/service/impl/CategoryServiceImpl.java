@@ -40,7 +40,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, CategoryEnt
             currCategory.getParentCid() == 0
         ).map(category->{
             // 获取每一个菜单的子分类
-            category.setChildrens(getChildrens(allCategorys, category));
+            category.setChildren(getChildrens(allCategorys, category));
             return category;
         }).sorted((sort1, sort2)->
             (sort1.getSort()==null?0:sort1.getSort()) - (sort2.getSort()==null?0:sort2.getSort())
@@ -56,7 +56,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, CategoryEnt
             all.getParentCid() == curr.getCatId()
         ).map(category->{
             // 子分类下面还有子分类
-            category.setChildrens(getChildrens(allCategorys, category));
+            category.setChildren(getChildrens(allCategorys, category));
             return category;
         }).sorted((sort1, sort2)->
             (sort1.getSort()==null?0:sort1.getSort()) - (sort2.getSort()==null?0:sort2.getSort())

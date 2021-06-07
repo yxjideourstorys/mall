@@ -1,25 +1,21 @@
 spring:
   application:
-    name: mall-gateway
+    name: mall-third-party
   cloud:
     nacos:
       config:
-        # 配置中心地址
-        # server-addr: http://106.15.238.69:8848
+        # 配置中心配置
+        # server-addr: http://106.15.238.69:8848 # 配置中心地址
         # 配置nginx地址
         server-addr: http://81.69.6.206:1122
         # 指定yaml格式的配置
         file-extension: yaml
         # config分组
-        group: gateway
+        group: thirdparty
         # config命名空间
         namespace: 50b719ee-29c4-41d5-8139-962971609d5b
         # 加载config中的其它配置
         extension-configs[0]:
-          data-id: application-gateway.yaml
-          group: gateway
-          refresh: true
-        extension-configs[1]:
-          data-id: gateway-router.yaml
-          group: gateway
+          data-id: application-thirdparty.yaml
+          group: thirdparty
           refresh: true

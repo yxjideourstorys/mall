@@ -7,9 +7,9 @@
         <artifactId>mall</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>mall-gateway</artifactId>
+    <artifactId>mall-third-party</artifactId>
 
-    <description>网关</description>
+    <name>第三方服务</name>
 
     <dependencies>
         <dependency>
@@ -24,16 +24,14 @@
             </exclusions>
         </dependency>
 
-        <!--SpringBoot actuator-->
+        <!--SpringBoot 整合Web组件 + actuator-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-
-        <!--新增gateway-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
 
         <dependency>
@@ -48,6 +46,12 @@
             <groupId>com.alibaba.nacos</groupId>
             <artifactId>nacos-client</artifactId>
             <version>1.4.1</version>
+        </dependency>
+
+        <!--aliyun-oss-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>aliyun-oss-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
 </project>
