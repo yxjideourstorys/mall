@@ -6,10 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
+@EnableDiscoveryClient
 @MapperScan("com.study.code.product.mapper")
-@SpringBootApplication
-@EnableDiscoveryClient // 开启服务的注册与发现
-@EnableFeignClients("com.study.code.commons.feign") // 开启feign调用
+@SpringBootApplication(scanBasePackages = {"com.study.code.commons.exception", "com.study.code.product"})
+@EnableFeignClients("com.study.code.commons.feign")
 public class MallProductApplication {
 
     public static void main(String[] args) {

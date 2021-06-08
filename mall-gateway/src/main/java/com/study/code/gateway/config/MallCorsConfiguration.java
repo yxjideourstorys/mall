@@ -1,4 +1,4 @@
-package com.study.mall.gateway.config;
+package com.study.code.gateway.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

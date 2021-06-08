@@ -8,8 +8,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>mall-third-party</artifactId>
-
-    <name>第三方服务</name>
+    <description>第三方服务</description>
 
     <dependencies>
         <dependency>
