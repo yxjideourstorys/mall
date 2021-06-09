@@ -53,7 +53,7 @@ public class BrandEntity implements Serializable {
     /**
      * 显示状态[0-不显示；1-显示]
      */
-    @NotEmpty(message = "显示状态不能为空", groups = {AddGroup.class, UpdateStatusGroup.class})
+    @NotNull(message = "显示状态不能为空", groups = {AddGroup.class, UpdateStatusGroup.class})
     @ListValue(vals = {0, 1}, message = "状态不正确", groups = {AddGroup.class, UpdateStatusGroup.class})
     private Integer showStatus;
 
