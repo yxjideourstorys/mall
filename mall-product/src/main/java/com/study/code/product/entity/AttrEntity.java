@@ -57,4 +57,9 @@ public class AttrEntity implements Serializable {
 	 */
 	private Integer showDesc;
 
+	/**
+	 * 值类型【0只能单个值，1允许多个值】
+	 */
+	private Integer valueType;
+
 }

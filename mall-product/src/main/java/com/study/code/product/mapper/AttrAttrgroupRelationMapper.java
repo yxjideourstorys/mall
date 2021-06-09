@@ -13,5 +13,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface AttrAttrgroupRelationMapper extends BaseMapper<AttrAttrgroupRelationEntity> {
-	
+
+    void updateAttrgroupRelation(AttrAttrgroupRelationEntity attrGroupRelation);
 }

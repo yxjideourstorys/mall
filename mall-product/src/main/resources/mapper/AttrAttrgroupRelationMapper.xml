@@ -11,5 +11,14 @@
         <result property="attrSort" column="attr_sort"/>
     </resultMap>
 
+    <update id="updateAttrgroupRelation">
+        update pms_attr_attrgroup_relation
+        set
+            attr_id = #{attrId},
+            attr_group_id = #{attrGroupId},
+            attr_sort = #{attrSort}
+        where id = #{id}
+    </update>
+
 
 </mapper>

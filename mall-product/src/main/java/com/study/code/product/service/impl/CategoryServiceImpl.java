@@ -1,7 +1,14 @@
 package com.study.code.product.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
+import com.study.code.product.entity.CategoryBrandRelationEntity;
+import com.study.code.product.service.CategoryBrandRelationService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -15,10 +22,14 @@ import com.study.code.commons.util.Query;
 import com.study.code.product.mapper.CategoryMapper;
 import com.study.code.product.entity.CategoryEntity;
 import com.study.code.product.service.CategoryService;
+import org.springframework.transaction.annotation.Transactional;
 
-
+@Slf4j
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, CategoryEntity> implements CategoryService {
+
+    @Autowired
+    private CategoryBrandRelationService categoryBrandRelationService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -72,5 +83,47 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, CategoryEnt
 
         // 逻辑删除 mybatis-plus 可以统一全局配置
         this.baseMapper.deleteBatchIds(catIds);
+    }
+
+    @Override
+    public Long[] getCategoryPath(Long catelogId) {
+
+        // 根据当前分类信息查询父分类信息
+        List<Long> paths = new ArrayList<>();
+        List<Long> categoryPath = findPath(catelogId, paths);
+
+        // 反转list   孙/子/父    ->   父/子/孙
+        Collections.reverse(categoryPath);
+        return categoryPath.toArray(new Long[categoryPath.size()]);
+    }
+
+    private List<Long> findPath(Long catelogId, List<Long> paths) {
+        // 根据当前分类id查询父分类信息
+        paths.add(catelogId);
+        CategoryEntity category = getById(catelogId);
+        if (category.getParentCid() != 0){
+            findPath(category.getParentCid(), paths);
+        }
+        return paths;
+    }
+
+    @Override
+    @Transactional
+    public void updateDetail(CategoryEntity category) {
+        CategoryEntity caty = getById(category.getCatId());
+        if (ObjectUtil.isEmpty(caty)){
+            throw new RuntimeException("该id【"+ category.getCatId() +"】的分类信息不存在");
+        }
+
+        // 修改分类信息
+        this.updateById(category);
+
+        // 修改关联信息
+        if (!caty.getName().equals(category.getName())){
+            log.info("分类名称改变，修改分类关联信息----->修改前：{}，修改后{}", caty.getName(), category.getName());
+            CategoryBrandRelationEntity brandRelation = new CategoryBrandRelationEntity();
+            brandRelation.setCatelogName(category.getName());
+            this.categoryBrandRelationService.update(brandRelation, new QueryWrapper<CategoryBrandRelationEntity>().eq("catelog_id", category.getCatId()));
+        }
     }
 }

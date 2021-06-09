@@ -3,18 +3,15 @@ package com.study.code.product.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.study.code.product.vo.AttrReqVO;
+import com.study.code.product.vo.AttrResVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.study.code.product.entity.AttrEntity;
 import com.study.code.product.service.AttrService;
 import com.study.code.commons.util.PageUtils;
 import com.study.code.utils.util.R;
-
 
 
 /**
@@ -33,9 +30,11 @@ public class AttrController {
     /**
      * 列表
      */
-    @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = attrService.queryPage(params);
+    @GetMapping("/{type}/list/{catelogId}")
+    public R attrList(@RequestParam Map<String, Object> params,
+                      @PathVariable("catelogId") Long catelogId,
+                      @PathVariable("type") String type) {
+        PageUtils page = attrService.queryAttrList(params, catelogId, type);
 
         return R.ok().put("page", page);
     }
@@ -45,18 +44,19 @@ public class AttrController {
      * 信息
      */
     @RequestMapping("/info/{attrId}")
-    public R info(@PathVariable("attrId") Long attrId){
-		AttrEntity attr = attrService.getById(attrId);
+    public R info(@PathVariable("attrId") Long attrId) {
 
-        return R.ok().put("attr", attr);
+        AttrResVO attrRes = this.attrService.queryAttrInfo(attrId);
+
+        return R.ok().put("attr", attrRes);
     }
 
     /**
      * 保存
      */
-    @RequestMapping("/save")
-    public R save(@RequestBody AttrEntity attr){
-		attrService.save(attr);
+    @PostMapping("/save")
+    public R save(@RequestBody AttrReqVO attr) {
+        attrService.saveAttr(attr);
 
         return R.ok();
     }
@@ -65,8 +65,8 @@ public class AttrController {
      * 修改
      */
     @RequestMapping("/update")
-    public R update(@RequestBody AttrEntity attr){
-		attrService.updateById(attr);
+    public R update(@RequestBody AttrReqVO attrVO) {
+        attrService.updateAttr(attrVO);
 
         return R.ok();
     }
@@ -75,8 +75,8 @@ public class AttrController {
      * 删除
      */
     @RequestMapping("/delete")
-    public R delete(@RequestBody Long[] attrIds){
-		attrService.removeByIds(Arrays.asList(attrIds));
+    public R delete(@RequestBody Long[] attrIds) {
+        attrService.removeByIds(Arrays.asList(attrIds));
 
         return R.ok();
     }

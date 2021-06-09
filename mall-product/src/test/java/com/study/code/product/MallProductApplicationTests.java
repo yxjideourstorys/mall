@@ -19,4 +19,11 @@ class MallProductApplicationTests {
 
         brandService.save(brand);
     }
+
+    @Test
+    public void test(){
+        Long a = -1L;
+        Long b = -1L;
+        System.out.println(a.longValue() == b.longValue());
+    }
 }
