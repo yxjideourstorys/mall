@@ -1,38 +1,37 @@
 package com.study.code.product.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.study.code.commons.constant.ProductConstant;
-import com.study.code.product.entity.*;
+import com.study.code.commons.util.PageUtils;
+import com.study.code.commons.util.Query;
+import com.study.code.product.entity.AttrAttrgroupRelationEntity;
+import com.study.code.product.entity.AttrEntity;
+import com.study.code.product.entity.AttrGroupEntity;
+import com.study.code.product.entity.CategoryEntity;
 import com.study.code.product.mapper.AttrAttrgroupRelationMapper;
 import com.study.code.product.mapper.AttrGroupMapper;
+import com.study.code.product.mapper.AttrMapper;
 import com.study.code.product.mapper.CategoryMapper;
-import com.study.code.product.service.AttrAttrgroupRelationService;
+import com.study.code.product.service.AttrService;
 import com.study.code.product.service.CategoryService;
 import com.study.code.product.vo.AttrReqVO;
 import com.study.code.product.vo.AttrResVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.study.code.commons.util.PageUtils;
-import com.study.code.commons.util.Query;
-
-import com.study.code.product.mapper.AttrMapper;
-import com.study.code.product.service.AttrService;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service("attrService")
@@ -66,7 +65,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrMapper, AttrEntity> impleme
     public void saveAttr(AttrReqVO attrVO) {
         // 保存属性信息
         AttrEntity attr = new AttrEntity();
-        BeanUtil.copyProperties(attrVO, attr);
+        BeanUtils.copyProperties(attrVO, attr);
         this.save(attr);
 
         if (attr.getAttrType() == ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode()) {
@@ -102,7 +101,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrMapper, AttrEntity> impleme
         List<AttrEntity> attrs = page.getRecords();
         List<AttrResVO> result = attrs.stream().map(attr -> {
             AttrResVO attrResVO = new AttrResVO();
-            BeanUtil.copyProperties(attr, attrResVO);
+            BeanUtils.copyProperties(attr, attrResVO);
             // 所属分类
             CategoryEntity category = this.categoryMapper.selectById(attr.getCatelogId());
             if (ObjectUtil.isNotEmpty(category)) {
@@ -112,7 +111,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrMapper, AttrEntity> impleme
             if ("base".equals(type)) {
                 // 基本信息 所属分组
                 AttrAttrgroupRelationEntity attrGroupRelation = this.attrAttrgroupRelationMapper.selectOne(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attr.getAttrId()));
-                if (ObjectUtil.isNotEmpty(attrGroupRelation)) {
+                if (ObjectUtil.isNotEmpty(attrGroupRelation) && ObjectUtil.isNotEmpty(attrGroupRelation.getAttrGroupId())) {
                     AttrGroupEntity attrGroup = this.attrGroupMapper.selectById(attrGroupRelation.getAttrGroupId());
                     if (ObjectUtil.isNotEmpty(attrGroup)) {
                         attrResVO.setGroupName(attrGroup.getAttrGroupName());
@@ -137,12 +136,12 @@ public class AttrServiceImpl extends ServiceImpl<AttrMapper, AttrEntity> impleme
 
         AttrEntity attr = this.getById(attrId);
         AttrResVO attrRes = new AttrResVO();
-        BeanUtil.copyProperties(attr, attrRes);
+        BeanUtils.copyProperties(attr, attrRes);
 
         if (attr.getAttrType() == ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode()){
             // 基本信息 获取所属分组信息
             AttrAttrgroupRelationEntity attrRelation = this.attrAttrgroupRelationMapper.selectOne(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attrId));
-            if (ObjectUtil.isNotEmpty(attrRelation)) {
+            if (ObjectUtil.isNotEmpty(attrRelation) && ObjectUtil.isNotEmpty(attrRelation.getAttrGroupId())) {
                 attrRes.setAttrGroupId(attrRelation.getAttrGroupId());
                 AttrGroupEntity attrGroup = this.attrGroupMapper.selectById(attrRelation.getAttrGroupId());
                 if (ObjectUtil.isNotEmpty(attrGroup)) {
@@ -168,11 +167,11 @@ public class AttrServiceImpl extends ServiceImpl<AttrMapper, AttrEntity> impleme
 
         // 修改属性信息
         AttrEntity attrNew = new AttrEntity();
-        BeanUtil.copyProperties(attrVO, attrNew);
+        BeanUtils.copyProperties(attrVO, attrNew);
         this.updateById(attrNew);
 
         if (attrNew.getAttrType() == ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode()){
-            // 修改关联信息
+            // 基本属性 修改关联信息
             AttrAttrgroupRelationEntity attrGroupRelation = this.attrAttrgroupRelationMapper.selectOne(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attrVO.getAttrId()));
             Long oldGroupId = attrGroupRelation.getAttrGroupId() == null ? -1 : attrGroupRelation.getAttrGroupId();
             Long newGroupId = attrVO.getAttrGroupId() == null ? -1 : attrVO.getAttrGroupId();

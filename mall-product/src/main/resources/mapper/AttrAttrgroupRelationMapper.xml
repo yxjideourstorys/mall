@@ -3,7 +3,7 @@
 
 <mapper namespace="com.study.code.product.mapper.AttrAttrgroupRelationMapper">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.study.code.product.entity.AttrAttrgroupRelationEntity" id="attrAttrgroupRelationMap">
         <result property="id" column="id"/>
         <result property="attrId" column="attr_id"/>
@@ -13,12 +13,45 @@
 
     <update id="updateAttrgroupRelation">
         update pms_attr_attrgroup_relation
-        set
-            attr_id = #{attrId},
+        <set>
             attr_group_id = #{attrGroupId},
-            attr_sort = #{attrSort}
+            <if test="attrId !=null and attrId != ''">
+                attr_id = #{attrId},
+            </if>
+            <if test="attrSort !=null and attrSort != ''">
+                attr_sort = #{attrSort},
+            </if>
+        </set>
         where id = #{id}
     </update>
+
+    <update id="updateBatchByAttrId">
+        UPDATE pms_attr_attrgroup_relation
+        SET
+        attr_group_id = CASE attr_id
+        <foreach collection="entities" item="item" index="index" open="" separator="" close="">
+            WHEN #{item.attrId} THEN #{item.attrGroupId}
+        </foreach>
+        END,
+        attr_sort = CASE attr_id
+        <foreach collection="entities" item="item" index="index" open="" separator="" close="">
+            WHEN #{item.attrId} THEN #{item.attrSort}
+        </foreach>
+        END
+        WHERE
+        attr_id in
+        <foreach collection="entities" item="item" index="index" open="(" separator="," close=")">
+            #{item.attrId}
+        </foreach>
+    </update>
+
+    <delete id="attrRelationDelete">
+        delete from pms_attr_attrgroup_relation
+        where
+        <foreach collection="entities" item="item" open="(" separator=" or " close=")">
+            attr_id = #{item.attrId} and attr_group_id = #{item.attrGroupId}
+        </foreach>
+    </delete>
 
 
 </mapper>

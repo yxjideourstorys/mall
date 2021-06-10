@@ -1,9 +1,12 @@
 package com.study.code.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.study.code.product.entity.AttrEntity;
 import com.study.code.product.service.CategoryService;
+import com.study.code.product.vo.AttrGroupReqVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,6 +46,48 @@ public class AttrGroupController {
         PageUtils page = attrGroupService.queryPageByCatId(params, catId);
 
         return R.ok().put("page", page);
+    }
+
+    /**
+     * 属性未关联列表
+     */
+    @RequestMapping("/{attrGroupId}/noattr/relation")
+    public R noattrRelation(@RequestParam Map<String, Object> params, @PathVariable("attrGroupId") Long attrGroupId){
+
+        PageUtils page = attrGroupService.queryNoattrRelationList(params, attrGroupId);
+
+        return R.ok().put("page", page);
+    }
+
+    /**
+     * 属性关联列表
+     */
+    @RequestMapping("/{attrGroupId}/attr/relation")
+    public R attrRelation(@PathVariable("attrGroupId") Long attrGroupId){
+
+        List<AttrEntity> result = attrGroupService.queryAttrRelationList(attrGroupId);
+
+        return R.ok().put("data", result);
+    }
+
+    /**
+     * 保存
+     */
+    @RequestMapping("/attr/relation")
+    public R saveAttrRelation(@RequestBody AttrGroupReqVO[] attrGroupReqVO){
+        attrGroupService.saveAttrRelation(attrGroupReqVO);
+
+        return R.ok();
+    }
+
+    /**
+     * 关联删除
+     */
+    @RequestMapping("/attr/relation/delete")
+    public R attrRelationDelete(@RequestBody AttrGroupReqVO[] attrGroupReqVO){
+        attrGroupService.attrRelationDelete(Arrays.asList(attrGroupReqVO));
+
+        return R.ok();
     }
 
 
