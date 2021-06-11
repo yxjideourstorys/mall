@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.study.code.commons.constant.ProductConstant;
 import com.study.code.commons.util.PageUtils;
 import com.study.code.commons.util.Query;
+import com.study.code.commons.vo.product.AttrResVO;
 import com.study.code.product.entity.AttrAttrgroupRelationEntity;
 import com.study.code.product.entity.AttrEntity;
 import com.study.code.product.entity.AttrGroupEntity;
@@ -18,7 +19,8 @@ import com.study.code.product.mapper.AttrGroupMapper;
 import com.study.code.product.mapper.AttrMapper;
 import com.study.code.product.service.AttrAttrgroupRelationService;
 import com.study.code.product.service.AttrGroupService;
-import com.study.code.product.vo.AttrGroupReqVO;
+import com.study.code.commons.vo.product.AttrGroupAndAttrResVO;
+import com.study.code.commons.vo.product.AttrGroupReqVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -105,7 +107,7 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupMapper, AttrGroup
 
 
         // 通过分类id查询所有的属性，并排除已绑定的属性值
-        QueryWrapper<AttrEntity> queryWrapper = new QueryWrapper<AttrEntity>().eq("catelog_id", catelogId).eq("attr_type", ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode());
+        QueryWrapper<AttrEntity> queryWrapper = new QueryWrapper<AttrEntity>().eq("catelog_id", catelogId).eq("attr_type", ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode()).eq("enable", ProductConstant.EnableEnum.ATTR_ENABLE_1.getCode());
         if (ObjectUtil.isNotEmpty(attrIds)) {
             queryWrapper.notIn("attr_id", attrIds);
         }
@@ -144,19 +146,24 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupMapper, AttrGroup
     }
 
     @Override
-    public List<AttrEntity> queryAttrRelationList(Long attrGroupId) {
+    public List<AttrResVO> queryAttrRelationList(Long attrGroupId) {
         log.info("queryAttrRelationList--->attrGroupId：{}", attrGroupId);
 
         // 通过分组id查询属性
         List<AttrAttrgroupRelationEntity> relationEntities = this.attrgroupRelationMapper.selectList(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_group_id", attrGroupId));
-        List<AttrEntity> attrEntities = new ArrayList<>();
+        List<AttrResVO> attrResVOs = new ArrayList<>();
         if (ObjectUtil.isNotEmpty(relationEntities)){
             List<Long> attrIds = relationEntities.stream().map(AttrAttrgroupRelationEntity::getAttrId).collect(Collectors.toList());
-            attrEntities = this.attrMapper.selectList(new QueryWrapper<AttrEntity>().in("attr_id", attrIds));
+            List<AttrEntity> attrEntities = this.attrMapper.selectList(new QueryWrapper<AttrEntity>().in("attr_id", attrIds).eq("enable", ProductConstant.EnableEnum.ATTR_ENABLE_1.getCode()));
+            attrResVOs = attrEntities.stream().map(item -> {
+                AttrResVO attrResVO = new AttrResVO();
+                BeanUtils.copyProperties(item, attrResVO);
+                return attrResVO;
+            }).collect(Collectors.toList());
         }
 
-        log.info("queryAttrRelationList--->" + JSON.toJSONString(attrEntities, SerializerFeature.PrettyFormat));
-        return attrEntities;
+        log.info("queryAttrRelationList--->" + JSON.toJSONString(attrResVOs, SerializerFeature.PrettyFormat));
+        return attrResVOs;
     }
 
     @Override
@@ -170,5 +177,22 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupMapper, AttrGroup
 
         log.info("attrRelationDelete--->attrgroupRelationMapper.attrRelationDelete：" + JSON.toJSONString(relationList, SerializerFeature.PrettyFormat));
         this.attrgroupRelationMapper.attrRelationDelete(relationList);
+    }
+
+    @Override
+    public List<AttrGroupAndAttrResVO> brandsWithattr(Long catId) {
+        log.info("brandsWithattr--->catId：{}", catId);
+
+        // 通过分类id查询该分类下有多少分组
+        List<AttrGroupEntity> attrGroup = this.list(new QueryWrapper<AttrGroupEntity>().eq("catelog_id", catId));
+        List<AttrGroupAndAttrResVO> groupAndAttrResVOS = attrGroup.stream().map(item -> {
+            AttrGroupAndAttrResVO vo = new AttrGroupAndAttrResVO();
+            BeanUtils.copyProperties(item, vo);
+            vo.setAttrs(this.queryAttrRelationList(vo.getAttrGroupId()));
+            return vo;
+        }).collect(Collectors.toList());
+
+        log.info("brandsWithattr--->" + JSON.toJSONString(groupAndAttrResVOS, SerializerFeature.PrettyFormat));
+        return groupAndAttrResVOS;
     }
 }

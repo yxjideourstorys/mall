@@ -1,6 +1,7 @@
 package com.study.code.product.service.impl;
 
 import org.springframework.stereotype.Service;
+
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -25,5 +26,4 @@ public class AttrAttrgroupRelationServiceImpl extends ServiceImpl<AttrAttrgroupR
 
         return new PageUtils(page);
     }
-
 }

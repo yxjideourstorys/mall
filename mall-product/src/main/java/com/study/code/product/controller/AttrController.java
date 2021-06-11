@@ -3,12 +3,11 @@ package com.study.code.product.controller;
 import java.util.Arrays;
 import java.util.Map;
 
-import com.study.code.product.vo.AttrReqVO;
-import com.study.code.product.vo.AttrResVO;
+import com.study.code.commons.vo.product.AttrReqVO;
+import com.study.code.commons.vo.product.AttrResVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.study.code.product.entity.AttrEntity;
 import com.study.code.product.service.AttrService;
 import com.study.code.commons.util.PageUtils;
 import com.study.code.utils.util.R;
@@ -35,6 +34,16 @@ public class AttrController {
                       @PathVariable("catelogId") Long catelogId,
                       @PathVariable("type") String type) {
         PageUtils page = attrService.queryAttrList(params, catelogId, type);
+
+        return R.ok().put("page", page);
+    }
+
+    /**
+     * 列表
+     */
+    @GetMapping("/sale/list/{catelogId}")
+    public R saleAttrList(@RequestParam Map<String, Object> params, @PathVariable("catelogId") Long catelogId) {
+        PageUtils page = attrService.querySaleAttrList(params, catelogId);
 
         return R.ok().put("page", page);
     }
@@ -66,6 +75,7 @@ public class AttrController {
      */
     @RequestMapping("/update")
     public R update(@RequestBody AttrReqVO attrVO) {
+
         attrService.updateAttr(attrVO);
 
         return R.ok();

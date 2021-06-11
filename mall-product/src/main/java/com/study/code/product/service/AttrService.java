@@ -3,8 +3,8 @@ package com.study.code.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.study.code.commons.util.PageUtils;
 import com.study.code.product.entity.AttrEntity;
-import com.study.code.product.vo.AttrReqVO;
-import com.study.code.product.vo.AttrResVO;
+import com.study.code.commons.vo.product.AttrReqVO;
+import com.study.code.commons.vo.product.AttrResVO;
 
 import java.util.Map;
 
@@ -26,5 +26,7 @@ public interface AttrService extends IService<AttrEntity> {
     AttrResVO queryAttrInfo(Long attrId);
 
     void updateAttr(AttrReqVO attrVO);
+
+    PageUtils querySaleAttrList(Map<String, Object> params, Long catelogId);
 }
 

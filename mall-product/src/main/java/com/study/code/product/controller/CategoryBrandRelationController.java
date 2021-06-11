@@ -29,13 +29,22 @@ public class CategoryBrandRelationController {
     private CategoryBrandRelationService categoryBrandRelationService;
 
     /**
-     * 列表
+     * 根据品牌id查询分类品牌关联列表
      */
     @GetMapping("/catelog/list")
     public R catelogList(@RequestParam("brandId") Long brandId){
         List<CategoryBrandRelationEntity> catelogList = categoryBrandRelationService.list(new QueryWrapper<CategoryBrandRelationEntity>().eq("brand_id", brandId));
 
         return R.ok().put("data", catelogList);
+    }
+
+    /**
+     * 根据分类id查询分类品牌关联列表
+     */
+    @GetMapping("/brands/list")
+    public R brandsList(@RequestParam("catId") Long catId){
+        List<CategoryBrandRelationEntity> relationList = categoryBrandRelationService.list(new QueryWrapper<CategoryBrandRelationEntity>().eq("catelog_id", catId));
+        return R.ok().put("data", relationList);
     }
 
     /**

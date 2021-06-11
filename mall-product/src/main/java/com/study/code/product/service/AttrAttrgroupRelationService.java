@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.study.code.commons.util.PageUtils;
 import com.study.code.product.entity.AttrAttrgroupRelationEntity;
 
-import java.util.List;
 import java.util.Map;
 
 /**

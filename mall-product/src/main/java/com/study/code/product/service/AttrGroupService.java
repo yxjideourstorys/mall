@@ -2,9 +2,11 @@ package com.study.code.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.study.code.commons.util.PageUtils;
+import com.study.code.commons.vo.product.AttrResVO;
 import com.study.code.product.entity.AttrEntity;
 import com.study.code.product.entity.AttrGroupEntity;
-import com.study.code.product.vo.AttrGroupReqVO;
+import com.study.code.commons.vo.product.AttrGroupAndAttrResVO;
+import com.study.code.commons.vo.product.AttrGroupReqVO;
 
 import java.util.List;
 import java.util.Map;
@@ -26,8 +28,10 @@ public interface AttrGroupService extends IService<AttrGroupEntity> {
 
     void saveAttrRelation(AttrGroupReqVO[] attrGroupReqVO);
 
-    List<AttrEntity> queryAttrRelationList(Long attrGroupId);
+    List<AttrResVO> queryAttrRelationList(Long attrGroupId);
 
     void attrRelationDelete(List<AttrGroupReqVO> asList);
+
+    List<AttrGroupAndAttrResVO> brandsWithattr(Long catId);
 }
 

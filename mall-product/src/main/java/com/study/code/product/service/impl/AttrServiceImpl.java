@@ -20,8 +20,8 @@ import com.study.code.product.mapper.AttrMapper;
 import com.study.code.product.mapper.CategoryMapper;
 import com.study.code.product.service.AttrService;
 import com.study.code.product.service.CategoryService;
-import com.study.code.product.vo.AttrReqVO;
-import com.study.code.product.vo.AttrResVO;
+import com.study.code.commons.vo.product.AttrReqVO;
+import com.study.code.commons.vo.product.AttrResVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -165,21 +165,46 @@ public class AttrServiceImpl extends ServiceImpl<AttrMapper, AttrEntity> impleme
     public void updateAttr(AttrReqVO attrVO) {
         log.info("updateAttr--------->attrVO----------->\n" + JSON.toJSONString(attrVO, SerializerFeature.PrettyFormat));
 
+        AttrEntity attrOld = getById(attrVO.getAttrId());
+        if (ObjectUtil.isEmpty(attrOld)){
+            throw new RuntimeException("该属性信息不存在");
+        }
+
         // 修改属性信息
         AttrEntity attrNew = new AttrEntity();
         BeanUtils.copyProperties(attrVO, attrNew);
         this.updateById(attrNew);
 
-        if (attrNew.getAttrType() == ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode()){
+        if (attrOld.getAttrType() == ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode()){
             // 基本属性 修改关联信息
             AttrAttrgroupRelationEntity attrGroupRelation = this.attrAttrgroupRelationMapper.selectOne(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attrVO.getAttrId()));
-            Long oldGroupId = attrGroupRelation.getAttrGroupId() == null ? -1 : attrGroupRelation.getAttrGroupId();
-            Long newGroupId = attrVO.getAttrGroupId() == null ? -1 : attrVO.getAttrGroupId();
-            if (ObjectUtil.isNotEmpty(attrGroupRelation) && oldGroupId.longValue() != newGroupId.longValue()) {
-                log.info("updateAttr-------->关联信息不为空且关联信息变化，更新操作--->Old：{}---New：{}", oldGroupId, newGroupId);
-                attrGroupRelation.setAttrGroupId(attrVO.getAttrGroupId());
-                this.attrAttrgroupRelationMapper.updateAttrgroupRelation(attrGroupRelation);
+            if (ObjectUtil.isNotEmpty(attrGroupRelation)){
+                // 如果属性已关联了分组，如果想禁用该属性，必须在分组上先移除该属性
+                if (ProductConstant.EnableEnum.ATTR_ENABLE_1.getCode() == attrOld.getEnable()
+                    && ProductConstant.EnableEnum.ATTR_ENABLE_0.getCode() == attrVO.getEnable()){
+                    log.info("该属性已绑定分组，无法禁用");
+                    throw new RuntimeException("该属性已绑定分组，无法禁用");
+                }
+
+                Long oldGroupId = attrGroupRelation.getAttrGroupId() == null ? -1 : attrGroupRelation.getAttrGroupId();
+                Long newGroupId = attrVO.getAttrGroupId() == null ? -1 : attrVO.getAttrGroupId();
+                if (oldGroupId.longValue() != newGroupId.longValue()) {
+                    log.info("updateAttr-------->关联信息不为空且关联信息变化，更新操作--->Old：{}---New：{}", oldGroupId, newGroupId);
+                    attrGroupRelation.setAttrGroupId(attrVO.getAttrGroupId());
+                    this.attrAttrgroupRelationMapper.updateAttrgroupRelation(attrGroupRelation);
+                }
             }
         }
+    }
+
+    @Override
+    public PageUtils querySaleAttrList(Map<String, Object> params, Long catelogId) {
+        QueryWrapper<AttrEntity> queryWrapper = new QueryWrapper<AttrEntity>().eq("catelog_id", catelogId).eq("attr_type", ProductConstant.AttrEnum.ATTR_TYPE_SALE.getCode()).eq("enable", ProductConstant.EnableEnum.ATTR_ENABLE_1.getCode());
+        IPage<AttrEntity> page = this.page(
+                new Query<AttrEntity>().getPage(params),
+                queryWrapper
+        );
+
+        return new PageUtils(page);
     }
 }

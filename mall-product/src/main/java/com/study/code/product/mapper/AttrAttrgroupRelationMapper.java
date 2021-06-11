@@ -2,7 +2,6 @@ package com.study.code.product.mapper;
 
 import com.study.code.product.entity.AttrAttrgroupRelationEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.study.code.product.vo.AttrGroupReqVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

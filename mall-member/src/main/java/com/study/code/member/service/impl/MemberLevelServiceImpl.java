@@ -1,5 +1,7 @@
 package com.study.code.member.service.impl;
 
+import cn.hutool.core.map.MapUtil;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -26,4 +28,19 @@ public class MemberLevelServiceImpl extends ServiceImpl<MemberLevelMapper, Membe
         return new PageUtils(page);
     }
 
+    @Override
+    public PageUtils queryMemLevelPageList(Map<String, Object> params) {
+        QueryWrapper<MemberLevelEntity> queryWrapper = new QueryWrapper<>();
+        String key = MapUtil.getStr(params, "key");
+        if (StringUtils.isNotEmpty(key)){
+            queryWrapper.eq("id", key).or().like("name", key);
+        }
+
+        IPage<MemberLevelEntity> page = this.page(
+                new Query<MemberLevelEntity>().getPage(params),
+                queryWrapper
+        );
+
+        return new PageUtils(page);
+    }
 }

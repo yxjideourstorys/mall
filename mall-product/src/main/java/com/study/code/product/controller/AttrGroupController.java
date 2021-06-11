@@ -1,23 +1,21 @@
 package com.study.code.product.controller;
 
+import com.study.code.commons.util.PageUtils;
+import com.study.code.commons.vo.product.AttrResVO;
+import com.study.code.product.entity.AttrEntity;
+import com.study.code.product.entity.AttrGroupEntity;
+import com.study.code.product.service.AttrAttrgroupRelationService;
+import com.study.code.product.service.AttrGroupService;
+import com.study.code.product.service.CategoryService;
+import com.study.code.commons.vo.product.AttrGroupAndAttrResVO;
+import com.study.code.commons.vo.product.AttrGroupReqVO;
+import com.study.code.utils.util.R;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-import com.study.code.product.entity.AttrEntity;
-import com.study.code.product.service.CategoryService;
-import com.study.code.product.vo.AttrGroupReqVO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.study.code.product.entity.AttrGroupEntity;
-import com.study.code.product.service.AttrGroupService;
-import com.study.code.commons.util.PageUtils;
-import com.study.code.utils.util.R;
 
 
 
@@ -36,6 +34,9 @@ public class AttrGroupController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private AttrAttrgroupRelationService relationService;
 
     /**
      * 列表
@@ -65,9 +66,20 @@ public class AttrGroupController {
     @RequestMapping("/{attrGroupId}/attr/relation")
     public R attrRelation(@PathVariable("attrGroupId") Long attrGroupId){
 
-        List<AttrEntity> result = attrGroupService.queryAttrRelationList(attrGroupId);
+        List<AttrResVO> result = attrGroupService.queryAttrRelationList(attrGroupId);
 
         return R.ok().put("data", result);
+    }
+
+
+    /**
+     * 根据分类id查询该分类下品牌及属性列表
+     */
+    @GetMapping("/{catelogId}/withattr")
+    public R brandsWithattr(@PathVariable(value = "catelogId") Long catId){
+        List<AttrGroupAndAttrResVO> brandsWithattr = this.attrGroupService.brandsWithattr(catId);
+
+        return R.ok().put("data", brandsWithattr);
     }
 
     /**
