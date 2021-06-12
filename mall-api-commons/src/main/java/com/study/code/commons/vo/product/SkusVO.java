@@ -5,19 +5,19 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**
- *
+ * 所有sku信息
  * @author swd
  */
 @Data
 public class SkusVO {
 
     /**
-     *  sku属性
+     * 属性组合
      */
     private List<AttrVO> attr;
 
     /**
-     * sku名字
+     * 商品名称
      */
     private String skuName;
 
@@ -27,12 +27,12 @@ public class SkusVO {
     private String price;
 
     /**
-     * sku标题
+     * 标题
      */
     private String skuTitle;
 
     /**
-     *  sku副标题
+     * 副标题
      */
     private String skuSubtitle;
 
@@ -42,7 +42,7 @@ public class SkusVO {
     private List<ImagesVO> images;
 
     /**
-     *
+     * 笛卡尔积 ["星空黑","12gb","pro"]
      */
     private List<String> descar;
 

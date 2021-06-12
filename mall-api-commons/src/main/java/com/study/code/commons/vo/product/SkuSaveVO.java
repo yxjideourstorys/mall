@@ -32,7 +32,7 @@ public class SkuSaveVO {
     private Long brandId;
 
     /**
-     * 重量
+     * 商品重量
      */
     private BigDecimal weight;
 
@@ -42,22 +42,22 @@ public class SkuSaveVO {
     private int publishStatus;
 
     /**
-     * 商品介绍 ，逗号隔开
+     * 商品介绍图片 ，逗号隔开
      */
     private List<String> decript;
 
     /**
-     * spu图片集
+     * 商品图片集
      */
     private List<String> images;
 
     /**
-     *
+     * 设置积分
      */
     private BoundsVO bounds;
 
     /**
-     *
+     * 规格参数(分组及属性)
      */
     private List<BaseAttrsVO> baseAttrs;
 

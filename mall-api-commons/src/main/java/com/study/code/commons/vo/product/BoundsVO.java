@@ -5,7 +5,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 /**
- *
+ *  设置积分
  * @author swd
  */
 @Data

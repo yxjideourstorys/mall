@@ -3,7 +3,7 @@ package com.study.code.commons.vo.product;
 import lombok.Data;
 
 /**
- * spu图片
+ * sku图片集
  * @author swd
  */
 @Data

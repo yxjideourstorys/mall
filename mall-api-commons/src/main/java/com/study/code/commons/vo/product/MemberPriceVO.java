@@ -5,7 +5,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 /**
- *
+ * 会员价格
  * @author swd
  */
 @Data
