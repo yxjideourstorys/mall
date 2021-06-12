@@ -1,5 +1,7 @@
 package com.study.code.coupon.service.impl;
 
+import com.study.code.commons.to.product.SpuBoundsTO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -24,6 +26,13 @@ public class SpuBoundsServiceImpl extends ServiceImpl<SpuBoundsMapper, SpuBounds
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public void saveBounds(SpuBoundsTO spuBoundsTO) {
+        SpuBoundsEntity spuBoundsEntity = new SpuBoundsEntity();
+        BeanUtils.copyProperties(spuBoundsTO, spuBoundsEntity);
+        this.save(spuBoundsEntity);
     }
 
 }

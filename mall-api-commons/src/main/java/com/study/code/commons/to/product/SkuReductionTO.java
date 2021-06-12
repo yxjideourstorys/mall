@@ -1,50 +1,19 @@
-package com.study.code.commons.vo.product;
+package com.study.code.commons.to.product;
+
+import com.study.code.commons.vo.product.MemberPriceVO;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
-/**
- * 所有sku信息
- * @author swd
- */
 @Data
-public class SkusVO {
+public class SkuReductionTO implements Serializable {
 
     /**
-     * 属性组合
+     * sku_id
      */
-    private List<SaleAttrVO> attr;
-
-    /**
-     * 商品名称
-     */
-    private String skuName;
-
-    /**
-     *  价格
-     */
-    private String price;
-
-    /**
-     * 标题
-     */
-    private String skuTitle;
-
-    /**
-     * 副标题
-     */
-    private String skuSubtitle;
-
-    /**
-     * sku图片集
-     */
-    private List<ImagesVO> images;
-
-    /**
-     * 笛卡尔积 ["星空黑","12gb","pro"]
-     */
-    private List<String> descar;
+    private Long skuId;
 
     /**
      * 满几件

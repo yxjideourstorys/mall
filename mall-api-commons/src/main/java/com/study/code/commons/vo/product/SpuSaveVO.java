@@ -9,7 +9,7 @@ import java.util.List;
  * @author swd
  */
 @Data
-public class SkuSaveVO {
+public class SpuSaveVO {
 
     /**
      * 商品名称

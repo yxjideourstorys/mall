@@ -3,6 +3,7 @@ package com.study.code.coupon.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.study.code.commons.to.product.SkuReductionTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -77,6 +78,16 @@ public class SkuFullReductionController {
     @RequestMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		skuFullReductionService.removeByIds(Arrays.asList(ids));
+
+        return R.ok();
+    }
+
+    /**
+     * 保存
+     */
+    @RequestMapping("/feign/saveSkuReduction")
+    public R saveSkuReduction(@RequestBody SkuReductionTO skuReductionTO){
+        skuFullReductionService.saveSkuReduction(skuReductionTO);
 
         return R.ok();
     }

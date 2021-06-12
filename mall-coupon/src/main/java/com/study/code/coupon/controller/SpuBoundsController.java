@@ -3,6 +3,7 @@ package com.study.code.coupon.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.study.code.commons.to.product.SpuBoundsTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -77,6 +78,17 @@ public class SpuBoundsController {
     @RequestMapping("/delete")
     public R delete(@RequestBody Long[] ids){
 		spuBoundsService.removeByIds(Arrays.asList(ids));
+
+        return R.ok();
+    }
+
+
+    /**
+     * 保存积分，Feign
+     */
+    @RequestMapping("/feign/saveSpuBounds")
+    public R saveSpuBounds(@RequestBody SpuBoundsTO spuBoundsTO){
+        spuBoundsService.saveBounds(spuBoundsTO);
 
         return R.ok();
     }

@@ -26,4 +26,8 @@ public class SpuInfoDescServiceImpl extends ServiceImpl<SpuInfoDescMapper, SpuIn
         return new PageUtils(page);
     }
 
+    @Override
+    public void saveSpuDesc(SpuInfoDescEntity spuDesc) {
+        this.save(spuDesc);
+    }
 }

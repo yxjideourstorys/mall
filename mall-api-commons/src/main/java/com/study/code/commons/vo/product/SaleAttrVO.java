@@ -8,7 +8,7 @@ import lombok.Data;
  *
  **/
 @Data
-public class AttrVO {
+public class SaleAttrVO {
     /**
      * sku属性id
      */

@@ -3,12 +3,9 @@ package com.study.code.product.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.study.code.commons.vo.product.SpuSaveVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.study.code.product.entity.SpuInfoEntity;
 import com.study.code.product.service.SpuInfoService;
@@ -52,11 +49,12 @@ public class SpuInfoController {
     }
 
     /**
-     * 保存
+     * 商品发布保存
      */
-    @RequestMapping("/save")
-    public R save(@RequestBody SpuInfoEntity spuInfo){
-		spuInfoService.save(spuInfo);
+    @PostMapping("/save")
+    public R spuInfoSave(@RequestBody SpuSaveVO spuSaveVO){
+
+		spuInfoService.spuInfoSave(spuSaveVO);
 
         return R.ok();
     }
