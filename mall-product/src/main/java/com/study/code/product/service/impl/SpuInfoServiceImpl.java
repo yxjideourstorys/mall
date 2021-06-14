@@ -1,5 +1,6 @@
 package com.study.code.product.service.impl;
 
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.study.code.commons.feign.coupon.CouponFeignService;
 import com.study.code.commons.to.product.SkuReductionTO;
@@ -59,9 +60,36 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoMapper, SpuInfoEntity
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
+
+        QueryWrapper<SpuInfoEntity> queryWrapper = new QueryWrapper<>();
+        String key = MapUtil.getStr(params, "key");
+        if (StringUtils.isNotEmpty(key)) {
+            queryWrapper.and(wrapper -> {
+                wrapper.eq("id", key)
+                        .or().like("spu_name", key)
+                        .or().like("spu_description", key);
+            });
+        }
+
+        String status = MapUtil.getStr(params, "status");
+        if (StringUtils.isNotEmpty(status)) {
+            queryWrapper.eq("publish_status", status);
+        }
+
+        String catelogId = MapUtil.getStr(params, "catelogId");
+        if (StringUtils.isNotEmpty(catelogId)) {
+            queryWrapper.eq("catalog_id", catelogId);
+        }
+
+        String brandId = MapUtil.getStr(params, "brandId");
+        if (StringUtils.isNotEmpty(brandId)) {
+            queryWrapper.eq("brand_id", brandId);
+        }
+
+
         IPage<SpuInfoEntity> page = this.page(
                 new Query<SpuInfoEntity>().getPage(params),
-                new QueryWrapper<SpuInfoEntity>()
+                queryWrapper
         );
 
         return new PageUtils(page);
@@ -96,7 +124,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoMapper, SpuInfoEntity
             productAttrValueEntity.setAttrValue(item.getAttrValues());
 
             AttrEntity attrEntity = attrService.getById(item.getAttrId());
-            if (ObjectUtil.isNotEmpty(attrEntity)){
+            if (ObjectUtil.isNotEmpty(attrEntity)) {
                 productAttrValueEntity.setAttrName(attrEntity.getAttrName());
             }
 
@@ -109,19 +137,19 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoMapper, SpuInfoEntity
         BeanUtils.copyProperties(spuSaveVO.getBounds(), spuBoundsTO);
         spuBoundsTO.setSpuId(spuInfoEntity.getId());
         R boundsResult = this.couponFeignService.saveSpuBounds(spuBoundsTO);
-        if (boundsResult.getCode() != 0){
+        if (boundsResult.getCode() != 0) {
             log.info("远程调用保存spuBounds失败...");
         }
 
         // #6 保存sku基本信息
         List<SkusVO> skusVOList = spuSaveVO.getSkus();
-        if (ObjectUtil.isNotEmpty(skusVOList)){
+        if (ObjectUtil.isNotEmpty(skusVOList)) {
             skusVOList.forEach(skusVO -> {
                 // 默认图片
                 List<ImagesVO> skuImagesVOList = skusVO.getImages();
                 String skuDefaultImg = "";
-                for (ImagesVO skuImage: skuImagesVOList) {
-                    if (skuImage.getDefaultImg() == 1){
+                for (ImagesVO skuImage : skuImagesVOList) {
+                    if (skuImage.getDefaultImg() == 1) {
                         skuDefaultImg = skuImage.getImgUrl();
                         break;
                     }
@@ -161,12 +189,12 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoMapper, SpuInfoEntity
                 // #6.4.1 阶梯 sms_sku_ladder
                 // #6.4.1 满减 sms_sku_full_reduction
                 // #6.4.1 会员价格 sms_member_price
-                if(skusVO.getFullCount() >0 || skusVO.getFullPrice().compareTo(new BigDecimal("0")) > 0){
+                if (skusVO.getFullCount() > 0 || skusVO.getFullPrice().compareTo(new BigDecimal("0")) > 0) {
                     SkuReductionTO skuReductionTO = new SkuReductionTO();
                     BeanUtils.copyProperties(skusVO, skuReductionTO);
                     skuReductionTO.setSkuId(skuInfoEntity.getSkuId());
                     R skuReductionResult = this.couponFeignService.saveSkuReduction(skuReductionTO);
-                    if(skuReductionResult.getCode() != 0){
+                    if (skuReductionResult.getCode() != 0) {
                         log.error("远程保存sku优惠信息失败");
                     }
                 }
