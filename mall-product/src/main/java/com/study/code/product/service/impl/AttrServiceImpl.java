@@ -90,7 +90,10 @@ public class AttrServiceImpl extends ServiceImpl<AttrMapper, AttrEntity> impleme
 
         String key = MapUtil.getStr(params, "key");
         if (StringUtils.isNotEmpty(key)) {
-            queryWrapper.eq("attr_id", key).or().like("attr_name", key);
+            queryWrapper.and(wrapper ->
+                wrapper.eq("attr_id", key)
+                        .or().like("attr_name", key)
+            );
         }
 
         IPage<AttrEntity> page = this.page(

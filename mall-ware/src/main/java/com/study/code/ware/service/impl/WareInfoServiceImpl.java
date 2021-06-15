@@ -1,5 +1,7 @@
 package com.study.code.ware.service.impl;
 
+import cn.hutool.core.map.MapUtil;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -18,9 +20,19 @@ public class WareInfoServiceImpl extends ServiceImpl<WareInfoMapper, WareInfoEnt
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
+
+        QueryWrapper<WareInfoEntity> querywrapper = new QueryWrapper<>();
+        String key = MapUtil.getStr(params, "key");
+        if (StringUtils.isNotEmpty(key)){
+            querywrapper.eq("id", key)
+                    .or().eq("areacode", key)
+                    .or().like("name", key)
+                    .or().like("address", key);
+        }
+
         IPage<WareInfoEntity> page = this.page(
                 new Query<WareInfoEntity>().getPage(params),
-                new QueryWrapper<WareInfoEntity>()
+                querywrapper
         );
 
         return new PageUtils(page);

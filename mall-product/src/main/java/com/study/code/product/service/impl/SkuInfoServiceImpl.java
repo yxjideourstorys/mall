@@ -26,7 +26,10 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfoEntity
         String key = MapUtil.getStr(params, "key");
         if (StringUtils.isNotEmpty(key)) {
             queryWrapper.and(wrapper -> {
-                wrapper.eq("sku_id", key).eq("spu_id", key).eq("catalog_id", key).eq("brand_id", key)
+                wrapper.eq("sku_id", key)
+                        .or().eq("spu_id", key)
+                        .or().eq("catalog_id", key)
+                        .or().eq("brand_id", key)
                         .or().like("sku_name", key)
                         .or().like("sku_title", key)
                         .or().like("sku_subtitle", key);

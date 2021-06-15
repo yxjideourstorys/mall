@@ -66,8 +66,9 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupMapper, AttrGroup
 
         QueryWrapper<AttrGroupEntity> queryWrapper = new QueryWrapper<>();
         if (StringUtils.isNotEmpty(key)) {
-            queryWrapper.and(objectQueryWrapper -> {
-                objectQueryWrapper.eq("attr_group_id", key).or().like("attr_group_name", key);
+            queryWrapper.and(wrapper -> {
+                wrapper.eq("attr_group_id", key)
+                        .or().like("attr_group_name", key);
             });
         }
 
@@ -114,9 +115,9 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupMapper, AttrGroup
 
         String key = MapUtil.getStr(params, "key");
         if (StringUtils.isNotEmpty(key)) {
-            queryWrapper.eq("attr_id", key)
-                    .or()
-                    .like("attr_name", key);
+            queryWrapper.and(wrapper -> wrapper.eq("attr_id", key)
+                    .or().like("attr_name", key)
+            );
         }
 
         IPage<AttrEntity> attrPage = this.attrMapper.selectPage(new Query<AttrEntity>().getPage(params), queryWrapper);
