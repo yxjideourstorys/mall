@@ -200,15 +200,4 @@ public class AttrServiceImpl extends ServiceImpl<AttrMapper, AttrEntity> impleme
             }
         }
     }
-
-    @Override
-    public PageUtils querySaleAttrList(Map<String, Object> params, Long catelogId) {
-        QueryWrapper<AttrEntity> queryWrapper = new QueryWrapper<AttrEntity>().eq("catelog_id", catelogId).eq("attr_type", ProductConstant.AttrEnum.ATTR_TYPE_SALE.getCode()).eq("enable", ProductConstant.EnableEnum.ATTR_ENABLE_1.getCode());
-        IPage<AttrEntity> page = this.page(
-                new Query<AttrEntity>().getPage(params),
-                queryWrapper
-        );
-
-        return new PageUtils(page);
-    }
 }

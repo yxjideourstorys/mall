@@ -27,23 +27,13 @@ public class AttrController {
     private AttrService attrService;
 
     /**
-     * 列表
+     * 规格参数及销售属性列表
      */
     @GetMapping("/{type}/list/{catelogId}")
     public R attrList(@RequestParam Map<String, Object> params,
                       @PathVariable("catelogId") Long catelogId,
                       @PathVariable("type") String type) {
         PageUtils page = attrService.queryAttrList(params, catelogId, type);
-
-        return R.ok().put("page", page);
-    }
-
-    /**
-     * 列表
-     */
-    @GetMapping("/sale/list/{catelogId}")
-    public R saleAttrList(@RequestParam Map<String, Object> params, @PathVariable("catelogId") Long catelogId) {
-        PageUtils page = attrService.querySaleAttrList(params, catelogId);
 
         return R.ok().put("page", page);
     }
