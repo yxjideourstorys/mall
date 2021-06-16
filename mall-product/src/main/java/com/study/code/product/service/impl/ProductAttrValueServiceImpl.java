@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -30,6 +32,24 @@ public class ProductAttrValueServiceImpl extends ServiceImpl<ProductAttrValueMap
 
     @Override
     public void saveProductAttrValue(List<ProductAttrValueEntity> productAttrValueEntityList) {
+        this.saveBatch(productAttrValueEntityList);
+    }
+
+    @Override
+    public List<ProductAttrValueEntity> listforspu(Long spuId) {
+        return this.baseMapper.selectList(new QueryWrapper<ProductAttrValueEntity>().eq("spu_id", spuId));
+    }
+
+    @Override
+    public void updateSpuAttr(Long spuId, List<ProductAttrValueEntity> productAttrValues) {
+        // 根据spuId，删除spu属性值
+        this.baseMapper.delete(new QueryWrapper<ProductAttrValueEntity>().eq("spu_id", spuId));
+
+        // 批量插入新的spu属性值
+        List<ProductAttrValueEntity> productAttrValueEntityList = productAttrValues.stream().map(attrValue -> {
+            attrValue.setSpuId(spuId);
+            return attrValue;
+        }).collect(Collectors.toList());
         this.saveBatch(productAttrValueEntityList);
     }
 

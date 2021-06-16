@@ -13,16 +13,14 @@ import com.study.code.commons.util.PageUtils;
 import com.study.code.commons.util.Query;
 import com.study.code.commons.vo.product.AttrReqVO;
 import com.study.code.commons.vo.product.AttrResVO;
-import com.study.code.product.entity.AttrAttrgroupRelationEntity;
-import com.study.code.product.entity.AttrEntity;
-import com.study.code.product.entity.AttrGroupEntity;
-import com.study.code.product.entity.CategoryEntity;
+import com.study.code.product.entity.*;
 import com.study.code.product.mapper.AttrAttrgroupRelationMapper;
 import com.study.code.product.mapper.AttrGroupMapper;
 import com.study.code.product.mapper.AttrMapper;
 import com.study.code.product.mapper.CategoryMapper;
 import com.study.code.product.service.AttrService;
 import com.study.code.product.service.CategoryService;
+import com.study.code.product.service.ProductAttrValueService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -200,4 +198,6 @@ public class AttrServiceImpl extends ServiceImpl<AttrMapper, AttrEntity> impleme
             }
         }
     }
+
+
 }

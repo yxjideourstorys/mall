@@ -5,7 +5,9 @@ import com.study.code.commons.util.PageUtils;
 import com.study.code.product.entity.AttrEntity;
 import com.study.code.commons.vo.product.AttrReqVO;
 import com.study.code.commons.vo.product.AttrResVO;
+import com.study.code.product.entity.ProductAttrValueEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,5 +28,6 @@ public interface AttrService extends IService<AttrEntity> {
     AttrResVO queryAttrInfo(Long attrId);
 
     void updateAttr(AttrReqVO attrVO);
+
 }
 
