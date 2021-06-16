@@ -3,6 +3,8 @@ package com.study.code.ware.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.study.code.commons.constant.WareConstant;
+import com.study.code.commons.exception.BizCodeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -66,6 +68,11 @@ public class PurchaseDetailController {
      */
     @RequestMapping("/update")
     public R update(@RequestBody PurchaseDetailEntity purchaseDetail){
+
+        if (purchaseDetail.getStatus() != WareConstant.PurchaseDetailEnum.CREATED.getCode()){
+            return R.error(BizCodeEnum.STATUS_EXCEPTION.getCode(), "该状态下不可进行修改");
+        }
+
 		purchaseDetailService.updateById(purchaseDetail);
 
         return R.ok();
@@ -76,7 +83,7 @@ public class PurchaseDetailController {
      */
     @RequestMapping("/delete")
     public R delete(@RequestBody Long[] ids){
-		purchaseDetailService.removeByIds(Arrays.asList(ids));
+		purchaseDetailService.removePurchaseDetailByIds(Arrays.asList(ids));
 
         return R.ok();
     }

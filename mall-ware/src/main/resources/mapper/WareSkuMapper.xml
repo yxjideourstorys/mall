@@ -12,6 +12,25 @@
         <result property="skuName" column="sku_name"/>
         <result property="stockLocked" column="stock_locked"/>
     </resultMap>
+    
+    <insert id="saveBatchWareSku" parameterType="java.util.List">
+        insert into wms_ware_sku(
+            sku_id,
+            ware_id,
+            stock,
+            sku_name,
+            stock_locked
+        ) values
+        <foreach collection="entities" item="item" separator=",">
+        (
+            #{item.skuId},
+            #{item.wareId},
+            #{item.stock},
+            #{item.skuName},
+            #{item.stockLocked}
+        )
+        </foreach>
+    </insert>
 
 
 </mapper>

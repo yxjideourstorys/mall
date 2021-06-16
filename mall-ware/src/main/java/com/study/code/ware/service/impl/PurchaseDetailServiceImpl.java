@@ -4,6 +4,7 @@ import cn.hutool.core.map.MapUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -49,6 +50,23 @@ public class PurchaseDetailServiceImpl extends ServiceImpl<PurchaseDetailMapper,
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public void removePurchaseDetailByIds(List<Long> asList) {
+        this.baseMapper.deleteBatchIds(asList);
+
+        // 关联删除
+    }
+
+    @Override
+    public List<PurchaseDetailEntity> getPurchaseDetail(Long purchaseId) {
+        return this.baseMapper.selectList(new QueryWrapper<PurchaseDetailEntity>().eq("purchase_id", purchaseId));
+    }
+
+    @Override
+    public void updateBatchByPurchaseId(List<PurchaseDetailEntity> purchaseDetailList) {
+        this.baseMapper.updateBatchByPurchaseId(purchaseDetailList);
     }
 
 }

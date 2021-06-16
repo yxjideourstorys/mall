@@ -1,28 +1,27 @@
 package com.study.code.product.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.study.code.commons.exception.BizException;
+import com.study.code.commons.util.PageUtils;
+import com.study.code.commons.util.Query;
 import com.study.code.product.entity.CategoryBrandRelationEntity;
+import com.study.code.product.entity.CategoryEntity;
+import com.study.code.product.mapper.CategoryMapper;
 import com.study.code.product.service.CategoryBrandRelationService;
+import com.study.code.product.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.study.code.commons.util.PageUtils;
-import com.study.code.commons.util.Query;
-
-import com.study.code.product.mapper.CategoryMapper;
-import com.study.code.product.entity.CategoryEntity;
-import com.study.code.product.service.CategoryService;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service("categoryService")
@@ -112,7 +111,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, CategoryEnt
     public void updateDetail(CategoryEntity category) {
         CategoryEntity caty = getById(category.getCatId());
         if (ObjectUtil.isEmpty(caty)){
-            throw new RuntimeException("该id【"+ category.getCatId() +"】的分类信息不存在");
+            throw new BizException("该id【"+ category.getCatId() +"】的分类信息不存在");
         }
 
         // 修改分类信息

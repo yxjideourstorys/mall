@@ -14,5 +14,21 @@
         <result property="status" column="status"/>
     </resultMap>
 
+    <update id="updateBatchByPurchaseId" parameterType="java.util.List">
+        UPDATE wms_purchase_detail
+        SET
+        status = CASE purchase_id
+        <foreach collection="entities" item="item" index="index" open="" separator="" close="">
+            WHEN #{item.purchaseId} THEN #{item.status}
+        </foreach>
+        END
+        WHERE
+        purchase_id in
+        <foreach collection="entities" item="item" index="index" open="(" separator="," close=")">
+            #{item.purchaseId}
+        </foreach>
+    </update>
+
+
 
 </mapper>

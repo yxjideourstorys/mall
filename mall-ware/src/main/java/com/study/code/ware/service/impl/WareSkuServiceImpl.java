@@ -1,9 +1,11 @@
 package com.study.code.ware.service.impl;
 
 import cn.hutool.core.map.MapUtil;
+import com.study.code.commons.exception.BizException;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -49,6 +51,11 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuMapper, WareSkuEntity
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public void saveBatchWareSku(List<WareSkuEntity> wareSkuSaveList) {
+        this.baseMapper.saveBatchWareSku(wareSkuSaveList);
     }
 
 }

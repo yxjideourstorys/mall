@@ -4,6 +4,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.study.code.commons.exception.BizException;
 import com.study.code.commons.util.PageUtils;
 import com.study.code.commons.util.Query;
 import com.study.code.product.entity.BrandEntity;
@@ -40,7 +41,7 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, BrandEntity> impl
     public void updateDetail(BrandEntity brand) {
         BrandEntity bra = getById(brand.getBrandId());
         if (ObjectUtil.isEmpty(bra)){
-            throw new RuntimeException("该品牌id【"+ brand.getBrandId() +"】的品牌信息不存在");
+            throw new BizException("该品牌id【"+ brand.getBrandId() +"】的品牌信息不存在");
         }
 
         // 更新品牌信息

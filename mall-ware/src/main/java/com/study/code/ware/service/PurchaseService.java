@@ -2,8 +2,11 @@ package com.study.code.ware.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.study.code.commons.util.PageUtils;
+import com.study.code.commons.vo.ware.MergePurchaseVO;
+import com.study.code.commons.vo.ware.PurchaseDoneVO;
 import com.study.code.ware.entity.PurchaseEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +19,13 @@ import java.util.Map;
 public interface PurchaseService extends IService<PurchaseEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    List<PurchaseEntity> queryUnreceiveList(Map<String, Object> params);
+
+    void merge(MergePurchaseVO mergePurchase);
+
+    void received(List<Long> purchases);
+
+    void done(PurchaseDoneVO purchaseDone);
 }
 

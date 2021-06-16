@@ -8,8 +8,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.study.code.commons.constant.ProductConstant;
+import com.study.code.commons.exception.BizException;
 import com.study.code.commons.util.PageUtils;
 import com.study.code.commons.util.Query;
+import com.study.code.commons.vo.product.AttrReqVO;
+import com.study.code.commons.vo.product.AttrResVO;
 import com.study.code.product.entity.AttrAttrgroupRelationEntity;
 import com.study.code.product.entity.AttrEntity;
 import com.study.code.product.entity.AttrGroupEntity;
@@ -20,8 +23,6 @@ import com.study.code.product.mapper.AttrMapper;
 import com.study.code.product.mapper.CategoryMapper;
 import com.study.code.product.service.AttrService;
 import com.study.code.product.service.CategoryService;
-import com.study.code.commons.vo.product.AttrReqVO;
-import com.study.code.commons.vo.product.AttrResVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -170,7 +171,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrMapper, AttrEntity> impleme
 
         AttrEntity attrOld = getById(attrVO.getAttrId());
         if (ObjectUtil.isEmpty(attrOld)){
-            throw new RuntimeException("该属性信息不存在");
+            throw new BizException("该属性信息不存在");
         }
 
         // 修改属性信息
@@ -186,7 +187,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrMapper, AttrEntity> impleme
                 if (ProductConstant.EnableEnum.ATTR_ENABLE_1.getCode() == attrOld.getEnable()
                     && ProductConstant.EnableEnum.ATTR_ENABLE_0.getCode() == attrVO.getEnable()){
                     log.info("该属性已绑定分组，无法禁用");
-                    throw new RuntimeException("该属性已绑定分组，无法禁用");
+                    throw new BizException("该属性已绑定分组，无法禁用");
                 }
 
                 Long oldGroupId = attrGroupRelation.getAttrGroupId() == null ? -1 : attrGroupRelation.getAttrGroupId();
